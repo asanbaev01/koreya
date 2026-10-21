@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Korean & Russian Phrases</title>
+<style>
+  :root {
+    --bg-color: #0b1120;
+    --card-bg: rgba(30, 41, 59, 0.6);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent: #38bdf8;
+    --accent-purple: #a78bfa;
+    --border: rgba(255, 255, 255, 0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg-color);
+    background-image: 
+      radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+      radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+      radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    padding: 40px 20px;
+    color: var(--text-main);
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    padding: 20px 0 40px;
+    animation: fadeInDown 0.8s ease-out;
+  }
+
+  header h1 {
+    font-size: 2.5em;
+    font-weight: 800;
+    background: linear-gradient(to right, #38bdf8, #818cf8, #c084fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+    letter-spacing: -1px;
+  }
+
+  header p {
+    color: var(--text-muted);
+    font-size: 1.1em;
+  }
+
+  .search-box {
+    width: 100%;
+    padding: 18px 25px;
+    font-size: 1.1em;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    color: var(--text-main);
+    margin-bottom: 40px;
+    outline: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  .search-box:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+  }
+
+  .search-box::placeholder {
+    color: var(--text-muted);
+  }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    gap: 25px;
+    align-items: start;
+  }
+
+  .category {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    animation: fadeInUp 0.6s ease-out backwards;
+  }
+
+  .category:hover {
+    transform: translateY(-2px);
+  }
+
+  .category h2 {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px 25px;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .phrase {
+    display: flex;
+    flex-direction: column;
+    padding: 18px 25px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .phrase:last-child { border-bottom: none; }
+
+  .phrase:hover {
+    background: rgba(255, 255, 255, 0.03);
+    padding-left: 30px;
+  }
+
+  .phrase:hover::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--accent);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .ko {
+    font-size: 1.3em;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .pronunciation {
+    font-size: 0.85em;
+    color: var(--accent-purple);
+    font-weight: 500;
+    background: rgba(167, 139, 250, 0.1);
+    padding: 3px 10px;
+    border-radius: 8px;
+    display: inline-block;
+  }
+
+  .ru {
+    color: var(--text-muted);
+    font-size: 1.05em;
+    margin-top: 5px;
+  }
+
+  footer {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 40px 0 20px;
+    font-size: 0.9em;
+  }
+
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-color); }
+  ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+  /* 📱 АДАПТИВДҮҮЛҮК (Телефон жана планшет үчүн) */
+  @media (max-width: 900px) {
+    .categories-grid {
+      grid-template-columns: 1fr; /* Бир тилкеге өтөт */
+    }
+  }
+
+  @media (max-width: 600px) {
+    body {
+      padding: 20px 12px;
+    }
+    header h1 {
+      font-size: 1.8em;
+    }
+    header p {
+      font-size: 0.95em;
+    }
+    .search-box {
+      padding: 14px 20px;
+      font-size: 1em;
+      margin-bottom: 25px;
+    }
+    .category h2 {
+      font-size: 1.05em;
+      padding: 15px 18px;
+    }
+    .phrase {
+      padding: 14px 18px;
+    }
+    .phrase:hover {
+      padding-left: 18px; /* Телефондо жылышпайт */
+    }
+    .phrase:hover::before {
+      display: none; /* Телефондо сызыкча чыкпайт */
+    }
+    .ko {
+      font-size: 1.15em;
+      gap: 8px;
+    }
+    .pronunciation {
+      font-size: 0.8em;
+      padding: 2px 8px;
+    }
+    .ru {
+      font-size: 0.95em;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Korean Phrases 🇰🇷</h1>
+    <p>Разговорный корейский с русским произношением</p>
+  </header>
+
+  <input type="text" class="search-box" id="search" placeholder="🔍 Поиск по корейскому, произношению или русскому...">
+
+  <div class="categories-grid" id="phrases"></div>
+
+  <footer>Нажмите на фразу, чтобы скопировать корейский текст 📋</footer>
+</div>
+
+<script>
+const data = [
+  {
+    category: "👋 Приветствия и прощания",
+    items: [
+      { ko: "안녕", pron: "аннён", ru: "Привет / Пока (неформально)" },
+      { ko: "안녕하세요", pron: "аннёнхасэё", ru: "Здравствуйте (вежливо)" },
+      { ko: "안녕하십니까", pron: "аннёнхасимникка", ru: "Здравствуйте (официально)" },
+      { ko: "안녕히 가세요", pron: "аннёнхи касэё", ru: "До свидания (уходящему)" },
+      { ko: "안녕히 계세요", pron: "аннёнхи кесэё", ru: "До свидания (остающемуся)" },
+      { ko: "또 만나요", pron: "тто маннаё", ru: "Увидимся" },
+      { ko: "잘 가", pron: "чаль ка", ru: "Давай, пока (другу)" },
+      { ko: "좋은 아침이에요", pron: "чоын ачхимиеё", ru: "Доброе утро" },
+      { ko: "잘 자요", pron: "чаль чаё", ru: "Спокойной ночи" },
+      { ko: "처음 뵙겠습니다", pron: "чхоым попкетсымнида", ru: "Рад встрече (при знакомстве)" }
+    ]
+  },
+  {
+    category: "🙏 Вежливость и благодарность",
+    items: [
+      { ko: "감사합니다", pron: "камсахамнида", ru: "Спасибо (официально)" },
+      { ko: "고마워", pron: "комаво", ru: "Спасибо (неформально)" },
+      { ko: "고마워요", pron: "комавоё", ru: "Спасибо (вежливо)" },
+      { ko: "천만에요", pron: "чхонманэё", ru: "Не за что" },
+      { ko: "죄송합니다", pron: "чвесонхамнида", ru: "Извините (официально)" },
+      { ko: "미안해", pron: "мианхэ", ru: "Извини (неформально)" },
+      { ko: "미안해요", pron: "мианхэё", ru: "Извините (вежливо)" },
+      { ko: "괜찮아요", pron: "квенчханаё", ru: "Все нормально / Ничего страшного" },
+      { ko: "실례합니다", pron: "силлэхамнида", ru: "Простите за беспокойство" },
+      { ko: "부탁합니다", pron: "путакхамнида", ru: "Прошу вас / Пожалуйста (при просьбе)" }
+    ]
+  },
+  {
+    category: "🗣️ Базовые ответы",
+    items: [
+      { ko: "네", pron: "нэ", ru: "Да" },
+      { ko: "아니요", pron: "аниё", ru: "Нет" },
+      { ko: "응", pron: "ын", ru: "Ага (неформально)" },
+      { ko: "몰라요", pron: "моллаё", ru: "Я не знаю" },
+      { ko: "알겠어요", pron: "альгессоё", ru: "Понятно / Я понял" },
+      { ko: "좋아요", pron: "чоаё", ru: "Хорошо / Мне нравится" },
+      { ko: "싫어요", pron: "сироё", ru: "Не хочу / Не нравится" },
+      { ko: "아마도", pron: "амадо", ru: "Может быть" },
+      { ko: "당연하죠", pron: "танёнхажё", ru: "Конечно" },
+      { ko: "그래요?", pron: "кырэё?", ru: "Правда? / Да?" },
+      { ko: "글쎄요", pron: "кыльссэё", ru: "Не знаю / Сложно сказать" }
+    ]
+  },
+  {
+    category: "🙋 Знакомство и общение",
+    items: [
+      { ko: "이름이 뭐예요?", pron: "ирыми мвоэё?", ru: "Как тебя зовут?" },
+      { ko: "제 이름은 ...이에요", pron: "че ирымын ...иеё", ru: "Меня зовут ..." },
+      { ko: "만나서 반가워요", pron: "маннасо пангавоё", ru: "Приятно познакомиться" },
+      { ko: "어디에서 왔어요?", pron: "одиэсо вассоё?", ru: "Откуда вы приехали?" },
+      { ko: "몇 살이에요?", pron: "мёт сариеё?", ru: "Сколько вам лет?" },
+      { ko: "저는 학생이에요", pron: "чонын хаксэніеё", ru: "Я студент" },
+      { ko: "영어 할 줄 알아요?", pron: "ёнъо халь чуль араё?", ru: "Вы говорите по-английски?" },
+      { ko: "한국어 조금 해요", pron: "хангуго чогым хэё", ru: "Я немного говорю по-корейски" },
+      { ko: "반갑습니다", pron: "пангапсымнида", ru: "Рад приветствовать" },
+      { ko: "잘 부탁드립니다", pron: "чаль путактыримнида", ru: "Приятно познакомиться (прошу любить и жаловать)" }
+    ]
+  },
+  {
+    category: "🍻 Еда и напитки (Кафе)",
+    items: [
+      { ko: "배고파요", pron: "пэгопаё", ru: "Я голоден" },
+      { ko: "배불러요", pron: "пэбуллоё", ru: "Я сыт" },
+      { ko: "메뉴 주세요", pron: "меню чусэё", ru: "Дайте меню, пожалуйста" },
+      { ko: "이거 뭐예요?", pron: "иго мвоэё?", ru: "Что это?" },
+      { ko: "이거 주세요", pron: "иго чусэё", ru: "Дайте мне это, пожалуйста" },
+      { ko: "물 좀 주세요", pron: "муль чом чусэё", ru: "Дайте немного воды" },
+      { ko: "맛있어요!", pron: "масиссоё!", ru: "Вкусно!" },
+      { ko: "매워요", pron: "мэвоё", ru: "Это остро" },
+      { ko: "계산해 주세요", pron: "кесанхэ чусэё", ru: "Счет, пожалуйста" },
+      { ko: "포장해 주세요", pron: "пхочанхэ чусэё", ru: "Заверните с собой" },
+      { ko: "건배!", pron: "конбэ!", ru: "Тост! (За здоровье!)" },
+      { ko: "소주 한 잔 주세요", pron: "соджу хан чан чусэё", ru: "Дайте рюмку соджу" },
+      { ko: "맛집 추천해 주세요", pron: "матчип чхучхонхэ чусэё", ru: "Порекомендуйте хороший ресторан" }
+    ]
+  },
+  {
+    category: "🚕 Транспорт и навигация",
+    items: [
+      { ko: "화장실 어디예요?", pron: "хвачансиль одиеё?", ru: "Где туалет?" },
+      { ko: "여기서 세워 주세요", pron: "ёгисо сево чусэё", ru: "Остановите здесь, пожалуйста" },
+      { ko: "택시 불러 주세요", pron: "тэкси пулло чусэё", ru: "Вызовите такси" },
+      { ko: "공항까지 얼마예요?", pron: "конханккачи ольмаеё?", ru: "Сколько до аэропорта?" },
+      { ko: "지하철역이 어디예요?", pron: "чихачхольёги одиеё?", ru: "Где станция метро?" },
+      { ko: "길을 잃었어요", pron: "кирыль ироссоё", ru: "Я заблудился" },
+      { ko: "여기에서 가까워요?", pron: "ёгиэсо какавоё?", ru: "Это близко отсюда?" },
+      { ko: "오른쪽으로 가세요", pron: "орынчхогыро касэё", ru: "Идите направо" },
+      { ko: "왼쪽으로 가세요", pron: "венчхогыро касэё", ru: "Идите налево" },
+      { ko: "똑바로 가세요", pron: "ттокпаро касэё", ru: "Идите прямо" },
+      { ko: "버스 정류장이 어디예요?", pron: "посы чоннючжани одиеё?", ru: "Где автобусная остановка?" }
+    ]
+  },
+  {
+    category: "🛍️ Покупки и шоппинг",
+    items: [
+      { ko: "이거 얼마예요?", pron: "иго ольмаеё?", ru: "Сколько это стоит?" },
+      { ko: "너무 비싸요", pron: "ному писсаё", ru: "Это слишком дорого" },
+      { ko: "깎아 주세요", pron: "ккакка чусэё", ru: "Сделайте скидку, пожалуйста" },
+      { ko: "카드로 계산할게요", pron: "кадыро кесанхалькеё", ru: "Я оплачу картой" },
+      { ko: "현금으로 할게요", pron: "хёнгымыро халькеё", ru: "Я оплачу наличными" },
+      { ko: "그냥 보는 중이에요", pron: "кыннян понын чунъиеё", ru: "Я просто смотрю" },
+      { ko: "봉투 주세요", pron: "понтху чусэё", ru: "Дайте пакет, пожалуйста" },
+      { ko: "다른 색깔 있어요?", pron: "тарын сэккаль иссоё?", ru: "Есть другой цвет?" },
+      { ko: "사이즈가 안 맞아요", pron: "саижыга ан маджаё", ru: "Размер не подходит" },
+      { ko: "환불하고 싶어요", pron: "хванбульхаго сипхоё", ru: "Я хочу вернуть деньги" }
+    ]
+  },
+  {
+    category: "🆘 Экстренные ситуации",
+    items: [
+      { ko: "도와주세요!", pron: "товачусэё!", ru: "Помогите, пожалуйста!" },
+      { ko: "경찰을 불러 주세요", pron: "кёнчхарыль пулло чусэё", ru: "Вызовите полицию" },
+      { ko: "병원에 가야 해요", pron: "пёнвоные кая хэё", ru: "Мне нужно в больницу" },
+      { ko: "아파요", pron: "апхаё", ru: "Мне больно / Я болею" },
+      { ko: "한국어를 못해요", pron: "хангугогыль мотхэё", ru: "Я не говорю по-корейски" },
+      { ko: "다시 말해 주세요", pron: "таси мальхэ чусэё", ru: "Повторите, пожалуйста" },
+      { ko: "천천히 말해 주세요", pron: "чхончхонхи мальхэ чусэё", ru: "Говорите медленнее, пожалуйста" },
+      { ko: "여권을 잃어버렸어요", pron: "ёгвонъыль иробориссоё", ru: "Я потерял паспорт" },
+      { ko: "약국이 어디예요?", pron: "яккуги одиеё?", ru: "Где аптека?" },
+      { ko: "도둑이야!", pron: "тодугия!", ru: "Вор! (Держи вора!)" }
+    ]
+  },
+  {
+    category: "💬 Сленг и эмоции",
+    items: [
+      { ko: "대박!", pron: "тэбак!", ru: "Круто! / Вот это да!" },
+      { ko: "진짜?", pron: "чинчжа?", ru: "Серьезно? / Правда?" },
+      { ko: "완전 좋아", pron: "ванчон чоа", ru: "Обалденно / Очень хорошо" },
+      { ko: "미쳤어?", pron: "мичхёссо?", ru: "Ты с ума сошел?" },
+      { ko: "꺼져", pron: "ккочжё", ru: "Отвали / Уйди (грубо)" },
+      { ko: "졸려", pron: "чоллё", ru: "Хочу спать" },
+      { ko: "심심해", pron: "симсимхэ", ru: "Скучно" },
+      { ko: "빨리 빨리", pron: "палли палли", ru: "Быстрее, быстрее" },
+      { ko: "화이팅!", pron: "хваитинг!", ru: "Давай! / Удачи!" },
+      { ko: "아이고", pron: "аиго", ru: "Ой / О боже" },
+      { ko: "헐", pron: "холь", ru: "Ого / Да ладно (удивление)" },
+      { ko: "짜증나", pron: "ччачжынна", ru: "Раздражает / Бесит" }
+    ]
+  },
+  {
+    category: "💖 Романтика и чувства",
+    items: [
+      { ko: "사랑해", pron: "саранхэ", ru: "Я тебя люблю (неформально)" },
+      { ko: "사랑해요", pron: "саранхэё", ru: "Я вас люблю (вежливо)" },
+      { ko: "보고 싶어", pron: "пого сипхо", ru: "Скучаю по тебе" },
+      { ko: "예뻐요", pron: "еппоё", ru: "Ты красивая / Красиво" },
+      { ko: "멋있어요", pron: "моссиссоё", ru: "Ты крутой / Стильный" },
+      { ko: "너무 귀여워요", pron: "ному квиёвоё", ru: "Такой милый" },
+      { ko: "나랑 데이트할래?", pron: "наран тэитхыхаллэ?", ru: "Пойдешь со мной на свидание?" },
+      { ko: "너 좋아해", pron: "но чоахэ", ru: "Ты мне нравишься" },
+      { ko: "우리 결혼할까?", pron: "ури кёльхонхалькка?", ru: "Может, поженимся?" },
+      { ko: "첫사랑", pron: "чхотсаран", ru: "Первая любовь" }
+    ]
+  },
+  {
+    category: "🕒 Время и числа",
+    items: [
+      { ko: "지금 몇 시예요?", pron: "чигым мёт сиеё?", ru: "Который сейчас час?" },
+      { ko: "오늘", pron: "оныль", ru: "Сегодня" },
+      { ko: "내일", pron: "нэиль", ru: "Завтра" },
+      { ko: "어제", pron: "одже", ru: "Вчера" },
+      { ko: "아침", pron: "ачхим", ru: "Утро" },
+      { ko: "저녁", pron: "чонёк", ru: "Вечер" },
+      { ko: "하나, 둘, 셋", pron: "хана, туль, сет", ru: "Один, два, три (корейские)" },
+      { ko: "일, 이, 삼", pron: "иль, и, сам", ru: "Один, два, три (китайские)" },
+      { ko: "얼마나 걸려요?", pron: "ольмана кольёё?", ru: "Сколько времени это займет?" },
+      { ko: "월요일", pron: "ворёиль", ru: "Понедельник" },
+      { ko: "주말", pron: "чумаль", ru: "Выходные" }
+    ]
+  },
+  {
+    category: "📱 Интернет и переписка",
+    items: [
+      { ko: "ㅋㅋㅋ", pron: "кыкыкы", ru: "Хахаха (смех)" },
+      { ko: "ㅎㅎㅎ", pron: "хыхыхы", ru: "Хехехе (смех)" },
+      { ko: "ㄱㅅ", pron: "камса", ru: "Спасибо (сокращение)" },
+      { ko: "ㅇㅇ", pron: "ынъын", ru: "Ага / Да" },
+      { ko: "노노", pron: "ноно", ru: "Нет-нет" },
+      { ko: "뭐 해?", pron: "мво хэ?", ru: "Что делаешь?" },
+      { ko: "잘 자", pron: "чаль ча", ru: "Спокойной ночи" },
+      { ko: "내일 봐", pron: "нэиль ква", ru: "До завтра" },
+      { ko: "연락해", pron: "ёллякхэ", ru: "Пиши / Звони" }
+    ]
+  },
+  {
+    category: "🏠 Дом и быт",
+    items: [
+      { ko: "집", pron: "чип", ru: "Дом" },
+      { ko: "방", pron: "пан", ru: "Комната" },
+      { ko: "문", pron: "мун", ru: "Дверь" },
+      { ko: "창문", pron: "чханмун", ru: "Окно" },
+      { ko: "침대", pron: "чхимдэ", ru: "Кровать" },
+      { ko: "의자", pron: "ыиджа", ru: "Стул" },
+      { ko: "책상", pron: "чхэксан", ru: "Стол (письменный)" },
+      { ko: "텔레비전", pron: "тэллебижон", ru: "Телевизор" },
+      { ko: "냉장고", pron: "нэнчжанго", ru: "Холодильник" },
+      { ko: "샤워", pron: "сяво", ru: "Душ" }
+    ]
+  },
+  {
+    category: "🏥 Здоровье и тело",
+    items: [
+      { ko: "머리", pron: "мори", ru: "Голова" },
+      { ko: "눈", pron: "нун", ru: "Глаз" },
+      { ko: "코", pron: "кхо", ru: "Нос" },
+      { ko: "입", pron: "ип", ru: "Рот" },
+      { ko: "귀", pron: "кви", ru: "Ухо" },
+      { ko: "손", pron: "сон", ru: "Рука" },
+      { ko: "발", pron: "паль", ru: "Нога" },
+      { ko: "배", pron: "пэ", ru: "Живот" },
+      { ko: "감기", pron: "камги", ru: "Простуда" },
+      { ko: "약", pron: "як", ru: "Лекарство" }
+    ]
+  },
+  {
+    category: "🌦️ Погода и природа",
+    items: [
+      { ko: "날씨", pron: "нальсси", ru: "Погода" },
+      { ko: "더워요", pron: "товоё", ru: "Жарко" },
+      { ko: "추워요", pron: "чхувоё", ru: "Холодно" },
+      { ko: "비", pron: "пи", ru: "Дождь" },
+      { ko: "눈", pron: "нун", ru: "Снег" },
+      { ko: "바람", pron: "парам", ru: "Ветер" },
+      { ko: "해", pron: "хэ", ru: "Солнце" },
+      { ko: "구름", pron: "курым", ru: "Облако" },
+      { ko: "맑아요", pron: "мальгаё", ru: "Ясно / Солнечно" },
+      { ko: "흐려요", pron: "хырёё", ru: "Пасмурно" }
+    ]
+  },
+  {
+    category: "🎨 Хобби и развлечения",
+    items: [
+      { ko: "영화", pron: "ёнхва", ru: "Фильм / Кино" },
+      { ko: "음악", pron: "ымак", ru: "Музыка" },
+      { ko: "노래", pron: "норэ", ru: "Песня" },
+      { ko: "춤", pron: "чхум", ru: "Танец" },
+      { ko: "책", pron: "чхэк", ru: "Книга" },
+      { ko: "운동", pron: "ундон", ru: "Спорт" },
+      { ko: "게임", pron: "кеим", ru: "Игра" },
+      { ko: "여행", pron: "ёхэн", ru: "Путешествие" },
+      { ko: "사진", pron: "сачжин", ru: "Фотография" },
+      { ko: "취미가 뭐예요?", pron: "чвимига мвоэё?", ru: "Какое у вас хобби?" }
+    ]
+  },
+  {
+    category: "💼 Работа и учеба",
+    items: [
+      { ko: "회사", pron: "хвеса", ru: "Компания / Офис" },
+      { ko: "학교", pron: "хаккё", ru: "Школа" },
+      { ko: "대학교", pron: "тэхаккё", ru: "Университет" },
+      { ko: "선생님", pron: "сонсэнним", ru: "Учитель" },
+      { ko: "학생", pron: "хаксэн", ru: "Студент / Ученик" },
+      { ko: "일", pron: "иль", ru: "Работа" },
+      { ko: "회의", pron: "хвеый", ru: "Совещание" },
+      { ko: "숙제", pron: "сукче", ru: "Домашнее задание" },
+      { ko: "시험", pron: "сихём", ru: "Экзамен" },
+      { ko: "바빠요", pron: "паппаё", ru: "Я занят" }
+    ]
+  },
+  {
+    category: "🚗 Цвета и описание",
+    items: [
+      { ko: "빨간색", pron: "ппальгансэк", ru: "Красный" },
+      { ko: "파란색", pron: "пхарансэк", ru: "Синий" },
+      { ko: "초록색", pron: "чхороксэк", ru: "Зеленый" },
+      { ko: "노란색", pron: "норансэк", ru: "Желтый" },
+      { ko: "검은색", pron: "комынсэк", ru: "Черный" },
+      { ko: "하얀색", pron: "хаянсэк", ru: "Белый" },
+      { ko: "크다", pron: "кхида", ru: "Большой" },
+      { ko: "작다", pron: "чакда", ru: "Маленький" },
+      { ko: "예쁘다", pron: "еппыда", ru: "Красивый" },
+      { ko: "비싸다", pron: "писсада", ru: "Дорогой" }
+    ]
+  },
+  {
+    category: "🎯 Полезные глаголы",
+    items: [
+      { ko: "가다", pron: "када", ru: "Идти / Ехать" },
+      { ko: "오다", pron: "ода", ru: "Приходить" },
+      { ko: "먹다", pron: "мокта", ru: "Есть / Кушать" },
+      { ko: "마시다", pron: "масида", ru: "Пить" },
+      { ko: "보다", pron: "пода", ru: "Смотреть / Видеть" },
+      { ko: "듣다", pron: "тытта", ru: "Слушать" },
+      { ko: "말하다", pron: "мальхада", ru: "Говорить" },
+      { ko: "사다", pron: "сада", ru: "Покупать" },
+      { ko: "팔다", pron: "пхальда", ru: "Продавать" },
+      { ko: "자다", pron: "чада", ru: "Спать" },
+      { ko: "일하다", pron: "ильхада", ru: "Работать" },
+      { ko: "공부하다", pron: "конбухада", ru: "Учиться" }
+    ]
+  }
+];
+
+const container = document.getElementById('phrases');
+
+function render(filter = '') {
+  container.innerHTML = '';
+  let delay = 0;
+
+  data.forEach(cat => {
+    const filtered = cat.items.filter(i =>
+      i.ko.toLowerCase().includes(filter.toLowerCase()) ||
+      i.pron.toLowerCase().includes(filter.toLowerCase()) ||
+      i.ru.toLowerCase().includes(filter.toLowerCase())
+    );
+    if (filtered.length === 0) return;
+
+    const div = document.createElement('div');
+    div.className = 'category';
+    div.style.animationDelay = `${delay}s`;
+    delay += 0.05;
+    
+    div.innerHTML = `<h2>${cat.category}</h2>`;
+    
+    filtered.forEach(item => {
+      const p = document.createElement('div');
+      p.className = 'phrase';
+      
+      p.innerHTML = `
+        <div class="ko">
+          ${item.ko} 
+          <span class="pronunciation">[${item.pron}]</span>
+        </div>
+        <div class="ru">${item.ru}</div>
+      `;
+      
+      p.onclick = () => {
+        const text = item.ko;
+        navigator.clipboard?.writeText(text);
+        
+        p.style.background = 'rgba(56, 189, 248, 0.25)';
+        setTimeout(() => p.style.background = '', 300);
+      };
+      
+      div.appendChild(p);
+    });
+    
+    container.appendChild(div);
+  });
+}
+
+document.getElementById('search').addEventListener('input', e => render(e.target.value));
+render();
+</script>
+</body>
+</html>
